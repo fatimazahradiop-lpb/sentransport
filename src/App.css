@@ -39,4 +39,38 @@ flex: 1;
 
 }
 
+/* Conteneur pour aligner les éléments côte à côte */
+.recherche-container {
+  display: flex;
+  gap: 12px; /* Espace entre la barre et le bouton */
+  align-items: stretch; /* Pour qu'ils aient la même hauteur */
+  margin-bottom: 20px;
+  width: 100%;
+}
 
+/* On s'assure que la barre de recherche prend tout l'espace restant */
+.recherche-container > div {
+  flex-grow: 1;
+}
+
+/* Style du bouton Effacer */
+.btn-effacer {
+  background-color: #e67e22; /* Orange comme dans votre TP */
+  color: white;
+  border: none;
+  padding: 0 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-effacer:hover {
+  background-color: #d35400;
+}
+
+.btn-effacer:active {
+  transform: scale(0.95); /* Petit effet d'enfoncement au clic */
+}

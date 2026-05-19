@@ -9,6 +9,7 @@ import Footer from './Footer';
 function App() {
   const [recherche, setRecherche] = useState("");
   const [ligneSelectionnee, setLigneSelectionnee] = useState(null);
+  const [compteurRecherches, setCompteurRecherches] = useState(0);
   const lignes = [ 
     { id: 1 , numero:"1", depart: "Parcelles Assainies",
     arrivee : " Plateau ", arrets : 14 ,
@@ -53,16 +54,40 @@ function App() {
           setLigneSelectionnee(ligne);
         }
     }
+    const gererChangementRecherche = (nouveauTexte) => {
+    setRecherche(nouveauTexte); // On met à jour le texte pour le filtre
+    setCompteurRecherches(prev => prev + 1); // On ajoute 1 au compteur
+};
 
     return (
       <div className="App">
         <Header/>
         <main className='contenu'>
-          <Recherche valeur={recherche} onChange={setRecherche} />
-          <p className="resultat-recherche">
-            {lignesFiltrees.length} ligne
-            {lignesFiltrees.length > 1 ? 's': "} trouvee {lignesFiltrees.length > 1 ? 's' : "}
+          {/* Affichage du compteur d'activité */}
+          <p style={{ fontSize: '0.8rem', color: '#7f8c8d', textAlign: 'right' }}>
+            Activité : {compteurRecherches} modification(s) de recherche
           </p>
+            <div className="recherche-container">
+                <Recherche valeur={recherche} onChange={gererChangementRecherche} />
+                  {/* Bouton pour vider le champ si une recherche est en cours */}
+                       {recherche !== "" && (
+                        <button onClick={() => setRecherche("")} className="btn-effacer">
+                             Effacer
+                        </button>
+  )}
+      </div>
+         {/* Si aucune ligne ne correspond à la recherche */}
+{lignesFiltrees.length === 0 ? (
+    <div className="message-aucun-resultat">
+        <p> Aucune ligne trouvée pour "<strong>{recherche}</strong>"</p>
+        <p>Essayez un autre numéro ou un autre quartier.</p>
+    </div>
+) : (
+    /* Sinon, on affiche le compteur habituel */
+    <p className="resultat-recherche">
+        {lignesFiltrees.length} ligne{lignesFiltrees.length > 1 ? 's' : ''} trouvée{lignesFiltrees.length > 1 ? 's' : ''}
+    </p>
+)} 
           {lignesFiltrees.map(ligne => ( 
             <LigneBus key={ligne.id} 
             numero={ligne.numero} 
